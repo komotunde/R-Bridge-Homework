@@ -1,0 +1,81 @@
+---
+title: "R Homework3"
+author: "Oluwakemi Omotunde"
+date: "August 1, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#1 Create a data frame with a subset of the columns in the data set.Include column for edible/poison, and 3-4 others.  I decided to include al the columns used to indicated poison/edible.
+small.agaricus.lepiota.data <- subset(agaricus.lepiota.data, select = c("edible-poison", "odor", "cap-color", "stalk-surface-below-ring", "spore-print-color", "population","habitat"))
+head(small.agaricus.lepiota.data)
+
+#2 Add meaningful column names.
+
+fields <- c("edible-poison", "cap-shape", "cap-surface", "cap-color", "bruises", "odor", "gill-attachment", "gill-spacing", "gill-size", "gill-color", "stalk-shape", "stalk-root", "stalk-surface-above-ring", "stalk-surface-below-ring", "stalk-color-above-ring", "stalk-color-below-ring", "veil-type", "veil-color", "ring-number", "ring-type", "spore-print-color", "population", "habitat")
+
+#2a replace abbreviations.
+  #1 
+levels(small.agaricus.lepiota.data$'edible-poison') <- c(levels(small.agaricus.lepiota.data$'edible-poison'), "edible", "poison")
+small.agaricus.lepiota.data$'edible-poison'[small.agaricus.lepiota.data$'edible-poison' == "e"] <- "edible"
+small.agaricus.lepiota.data$'edible-poison'[small.agaricus.lepiota.data$'edible-poison' == "p"] <- "poison"
+  #2
+levels(small.agaricus.lepiota.data$'odor') <- c(levels(small.agaricus.lepiota.data$'odor'), "almond", "anise", "creosote", "fishy", "foul", "musty", "none", "pungent", "spicy")
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "a"] <- "almond"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "l"] <- "anise"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "c"] <- "creosote"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "y"] <- "fishy"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "f"] <- "foul"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "m"] <- "musty"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "n"] <- "none"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "p"] <- "pungent"
+small.agaricus.lepiota.data$'odor'[small.agaricus.lepiota.data$'odor' == "s"] <- "spicy"
+
+  #3
+levels(small.agaricus.lepiota.data$'cap-color') <- c(levels(small.agaricus.lepiota.data$'cap-color'), "brown", "buff", "cinnamon", "gray", "green", "pink", "purple", "red", "white","yellow")
+small.agaricus.lepiota.data$'cap-color'[small.df$'odor' == "n"] <- "brown"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "b"] <- "buff"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "c"] <- "cinnamon"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "g"] <- "gray"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "r"] <- "green"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "p"] <- "pink"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "u"] <- "purple"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "e"] <- "red"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "w"] <- "white"
+small.agaricus.lepiota.data$'cap-color'[small.agaricus.lepiota.data$'cap-color' == "n"] <- "brown"
+  
+  #4
+levels(small.agaricus.lepiota.data$'stalk-surface-below-ring') <- c(levels(small.agaricus.lepiota.data$'stalk-surface-below-ring'), "fibrous", "scaly", "silky", "smooth")
+small.agaricus.lepiota.data$'stalk-surface-below-ring'[small.agaricus.lepiota.data$'stalk-surface-below-ring' == "f"] <- "fibrous"
+small.agaricus.lepiota.data$'stalk-surface-below-ring'[small.agaricus.lepiota.data$'stalk-surface-below-ring' == "y"] <- "scaly"
+small.agaricus.lepiota.data$'stalk-surface-below-ring'[small.agaricus.lepiota.data$'stalk-surface-below-ring' == "k"] <- "silky"
+small.agaricus.lepiota.data$'stalk-surface-below-ring'[small.agaricus.lepiota.data$'stalk-surface-below-ring' == "s"] <- "smooth"
+
+  #5
+levels(small.agaricus.lepiota.data$'spore-print-color') <- c(levels(small.agaricus.lepiota.data$'spore-print-color'), "black", "brown", "buff", "chocolate", "green", "orange", "purple", "white", "yellow")
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "k"] <- "black"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "n"] <- "brown"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "b"] <- "buff"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "h"] <- "chocolate"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "r"] <- "green"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "o"] <- "orange"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "u"] <- "purple"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "w"] <- "white"
+small.agaricus.lepiota.data$'spore-print-color'[small.agaricus.lepiota.data$'spore-print-color' == "y"] <- "yellow"
+
+#6
+levels(small.agaricus.lepiota.data$'habitat') <- c(levels(small.agaricus.lepiota.data$'habitat'), "grasses", "leaves", "meadows", "scattered", "paths", "urban", "waste", "woods")
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "k"] <- "grasses"
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "n"] <- "leaves"
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "b"] <- "meadows"
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "h"] <- "scattered"
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "r"] <- "paths"
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "o"] <- "urban"
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "r"] <- "waste"
+small.agaricus.lepiota.data$'habitat'[small.agaricus.lepiota.data$'habitat' == "o"] <- "woods"
+
+head(agaricus.lepiota.data)
+
+

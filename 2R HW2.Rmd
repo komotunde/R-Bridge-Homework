@@ -1,0 +1,24 @@
+---
+title: "R HW WEEK2"
+author: "Oluwakemi Omotunde"
+date: "July 24, 2016"
+output: word_document
+---
+prob.hw2 <- function(n,r)
+ {
+   y <- prod(1:n)
+   x <- prod(1:(n-r))
+   z <- prod(1:r)
+   print(y/(x*z))
+ }
+ 
+ prob.hw2(5,3)
+ 
+ prob.hw2(7,2)
+ 
+ prob.hw2(0,0) #note we get the expected output since this case is undefined.
+ 
+ prob.hw2(100,5)
+ 
+ prob.hw2(-100,5) #note we get the expect output when we put in a negative number
+ 

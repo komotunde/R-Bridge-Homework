@@ -1,0 +1,60 @@
+---
+title: "R Week4 Homework"
+author: "Oluwakemi Omotunde"
+date: "August 7, 2016"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+#USArrests was downloaded from http://vincentarelbundock.github.io/Rdatasets/ and loaded using the importa dataset tool.
+#The dataset that I will be working with contains informatoin pertaining to violent arrests in the US. It looks at murders, assaults as well as rape. It also contains a column for urban population.
+
+#When we take a look at the summary , as for the dataset, we see that on average, assault occurs the most in the US, followed by rape a distant second.
+
+summary(USArrests)
+
+#The above gives us the mean, median, and quartiles for the dataset.
+
+USArrests[order(-USArrests$UrbanPop),]
+
+#When we run the above code, the Urban population is ranked from greatest to least. We now want to graph the top five urban populations vs. each category (Murder, Rape, Assault). 
+top5 <-head(USArrests[order(-USArrests$UrbanPop),])
+
+ggplot(top5, aes(y = UrbanPop, x = Murder))+geom_boxplot()
+#We can see that for top five urban populations, the median for murder is about 6.5 and their are no outliers. 
+ggplot(top5, aes(y = Assault, x = UrbanPop))+geom_boxplot()
+#Median is shown to be approximately 152.
+ggplot(top5, aes(y = Rape, x = UrbanPop))+geom_boxplot()
+#Median is about 19.
+summary(top5)
+#When we run the above we see that out boxplots are accuarate.
+
+
+#Scatterplot of  Urban Population vs murder, rape and assault.
+ggplot(USArrests, aes(x=UrbanPop, y=Murder))+geom_point()
+
+ggplot(USArrests, aes(x=UrbanPop, y=Rape))+geom_point()
+
+ggplot(USArrests, aes(x=UrbanPop, y=Assault))+geom_point()
+
+#After looking at the scatterplots, I wanted to input a regression line to see if there is any corrrelation between urban population and each of the categories.
+
+ggplot(USArrests, aes(x=UrbanPop, y=Murder))+geom_point()+geom_smooth(method = 'lm')+labs(x='Population',y='Murder')
+
+ggplot(USArrests, aes(x=UrbanPop, y=Rape))+geom_point()+geom_smooth(method = 'lm')+labs(x='Population',y='Rape')
+
+ggplot(USArrests, aes(x=UrbanPop, y=Assault))+geom_point()+geom_smooth(method = 'lm')+labs(x='Population',y='Assault')
+
+#looking at the scatterplots with the regressions lines, it seems that rape has a slight correlation to urban population, which is not at all what I was expecting. 
+
+#The follwing graps will show the top five Urban Populations vs each category, using a bar graph
+ggplot(data=top5, aes(y=Murder, x = State, fill = State))+geom_bar(stat = 'identity', width = .5)+guides(fill=FALSE)+ggtitle('Murder Rate For Top Five States')
+
+ggplot(data=top5, aes(y=Assault, x = State, fill = State))+geom_bar(stat = 'identity', width = .5)+guides(fill=FALSE)+ggtitle('Assault Rate For Top Five States')
+
+ggplot(data=top5, aes(y=Rape, x = State, fill = State))+geom_bar(stat = 'identity', width = .5)+guides(fill=FALSE)+ggtitle('Rape Rate For Top Five States')
+
+
+

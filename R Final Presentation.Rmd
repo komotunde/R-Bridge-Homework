@@ -1,0 +1,113 @@
+---
+title: "R Final Presentation"
+author: "Oluwakemi Omotunde"
+date: "August 10, 2016"
+output: html_document
+---
+library(hflights)
+
+#First lets look at the data we are working with. 
+
+head(hflights)
+
+#I want to create a subset of columns that I plan  to use for this project.
+part1 <- hflights[1:7]
+part2 <- hflights[10:11]
+part3 <- hflights[16]
+
+houstonflights <- cbind(part1, part2,part3)
+head(houstonflights)
+
+# Next, let's see if we can't get a few characteristics of the dataset.
+ 
+dim(houstonflights)
+class(houstonflights)
+summary(houstonflights)
+
+# Dividing the distance by time will give us the speed for each aircraft. I will then add a column for speed into my dataset.
+
+Speed.Miles.Minute <- hflights$Distance / hflights$ActualElapsedTime
+houstonf <- cbind(houstonflights, Speed.Miles.Minute)
+head(houstonf)
+
+#I'm gonna go ahead and change the data in colums DayofWeek and Month from numerical values to alphabetic ones.
+
+levels(houstonf$'DayOfWeek') <- c(levels(houstonf$'DayOfWeek'), "Mon.", "Tues.", "Wed.", "Thurs.", "Fri.", "Sat.", "Sun.")
+houstonf$'DayOfWeek'[houstonf$'DayOfWeek' == 1] <- "Mon."
+houstonf$'DayOfWeek'[houstonf$'DayOfWeek' == 2] <- "Tues."
+houstonf$'DayOfWeek'[houstonf$'DayOfWeek' == 3] <- "Wed."
+houstonf$'DayOfWeek'[houstonf$'DayOfWeek' == 4] <- "Thurs."
+houstonf$'DayOfWeek'[houstonf$'DayOfWeek' == 5] <- "Fri."
+houstonf$'DayOfWeek'[houstonf$'DayOfWeek' == 6] <- "Sat."
+houstonf$'DayOfWeek'[houstonf$'DayOfWeek' == 7] <- "Sun."
+
+head(houstonf)
+
+levels(houstonf$'Month') <- c(levels(houstonf$'Month'), "Jan.", "Feb.", "Mar.", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.","Nov.", "Dec.")
+houstonf$'Month'[houstonf$'Month' == 1] <- "Jan."
+houstonf$'Month'[houstonf$'Month' == 2] <- "Feb."
+houstonf$'Month'[houstonf$'Month' == 3] <- "Mar."
+houstonf$'Month'[houstonf$'Month' == 4] <- "April"
+houstonf$'Month'[houstonf$'Month' == 5] <- "May"
+houstonf$'Month'[houstonf$'Month' == 6] <- "June"
+houstonf$'Month'[houstonf$'Month' == 7] <- "July"
+houstonf$'Month'[houstonf$'Month' == 8] <- "Aug."
+houstonf$'Month'[houstonf$'Month' == 9] <- "Sept."
+houstonf$'Month'[houstonf$'Month' == 10] <- "Oct."
+houstonf$'Month'[houstonf$'Month' == 11] <- "Nov."
+houstonf$'Month'[houstonf$'Month' == 12] <- "Dec."
+
+head(houstonf)
+
+tail(houstonf)
+#Lets get the same info on houstonf that we did on houstonflights.
+dim(houstonf)
+class(houstonf)
+summary(houstonf)
+
+
+#When we run the summary of table houstonf, we see that the median for these flights is 6.026 miles/minute. I will create a boxplot to check the accuracy of this
+
+require(ggplot2)
+
+boxplot(houstonf$Speed.Miles.Minute)
+#The thick middle line shows to be slightly above 6. We can see that all the information provided by the boxplot is backed up by what we get when we run the summary. We can do the same for distance, Airtime, and ActualElapsedTime.
+
+boxplot(houstonf$Distance)
+boxplot(houstonf$AirTime)
+boxplot(houstonf$ActualElapsedTime)
+
+#I would like to view a line plot for distance vs. ActualElapsedTime for flights.
+ggplot(houstonf, aes(y=Distance, x=ActualElapsedTime))+geom_line()
+#This line graph shows what we already now logically; that as the distance increases, we see as increase in ActualElapsedTime as well.
+
+#I would like to take a look at the scatter plot for distance vs actualelapsedtime using one of the themes used in the text book. I had to install the ggthemes package.
+require(ggthemes)
+theme.houstonf<-ggplot(houstonf, aes(y=Distance, x=ActualElapsedTime))+geom_point(); theme.houstonf+theme_economist()
+theme.houstonf+theme_wsj()
+#The WSJ theme is my favorite.
+#We get a warning that rows with missing values were removed and this is fine.
+
+#The question  I would like to analyze is which airline is faster on average? To do this, I will go back and add the airline columnn to my subset.
+
+head(houstonf)
+
+houstonfAA <- subset(houstonf, UniqueCarrier == "AA")
+houstonfWN <- subset(houstonf, UniqueCarrier == "WN")
+houstonfAS <- subset(houstonf, UniqueCarrier == "AS")
+houstonfCO <- subset(houstonf, UniqueCarrier == "CO")
+
+summary(houstonfAA)
+summary(houstonfWN)
+summary(houstonfAS)
+summary(houstonfCO)
+
+linehoustonf <- rbind(houstonfAA,houstonfWN,houstonfAS,houstonfCO)
+#Graphically, we can create line graphs for distance vs. time for each airline to compare speed.
+
+g <- ggplot(linehoustonf, aes(x=Distance, y=ActualElapsedTime))
+g <- g + geom_line(aes(color=factor(UniqueCarrier), group=UniqueCarrier))
+g <- g + scale_color_discrete(name=("Carrier"))
+g <- g + scale_y_continuous()
+g
+#Note that CO is the only airline(of the ones we chose to compare) that goes to distances greater than 2000 miles.AA has the slowest average speed while AS has the fastest.
